@@ -1,8 +1,8 @@
 // ── lib/data.js ──────────────────────────────────────────────────────────────
 
 export const SOCIAL = {
-  github: 'https://github.com/hazel-dot-exe', // replace with real URL
-  linkedin: 'https://www.linkedin.com/in/marqueseshzl0/', // replace with real URL
+  github: 'https://github.com/hazel-dot-exe', 
+  linkedin: 'https://www.linkedin.com/in/marqueseshzl0/', 
   email: 'marqueseshazel7@gmail.com',
   phone: '09185865159',
   location: 'Bicol, Philippines',
@@ -17,7 +17,7 @@ export const PROJECTS = [
     duration: 'August 2024 – March 2026',
     client: 'BU University Student Council',
     role: 'Project Manager',
-    tools: ['Next.js', 'GitHub', 'Notion', 'Trello', 'Figma'],
+    tools: ['TALL Stack', 'GitHub', 'Discord', 'Trello', 'Figma', 'Canva'],
     accent: '#e8b86d',
     overview:
       'Developed the official digital platform for the Bicol University Student Council — the primary interface between student governance and the university community.',
@@ -36,13 +36,13 @@ export const PROJECTS = [
   },
   {
     id: 'agtech',
-    tag: 'QA + Full-Stack · Capstone',
+    tag: 'QA + Systems Analyst · Capstone',
     title: 'AgTech: Farmer-Trader Market Platform',
     subtitle: 'Bridging agriculture with transparent digital trade',
-    duration: '2024 – 2025',
-    client: 'Bicol University Capstone',
-    role: 'QA Lead + Developer',
-    tools: ['Node.js', 'Next.js', 'MySQL', 'Playwright', 'GitHub'],
+    duration: 'January – December 2024',
+    client: 'Bicol University Capstone Project',
+    role: 'QA Lead + Systems Analyst',
+    tools: ['PHP', 'Tailwind', 'MySQL', 'GitHub', 'Trello', 'Figma',],
     accent: '#5cb85c',
     overview:
       'A web-based platform designed to connect farmers directly with traders, eliminating middlemen and enabling transparent, data-informed agricultural commerce.',
@@ -51,10 +51,10 @@ export const PROJECTS = [
     approach: [
       'Conducted requirements analysis through stakeholder interviews with farmers and local trade cooperatives.',
       'Designed system architecture and data models to support buyer-seller interactions and market data tracking.',
-      'Broke development into sprints with clearly scoped deliverables tracked in Notion.',
+      'Broke development into sprints with clearly scoped deliverables tracked in Trello.',
       'Coordinated team effort across frontend, backend, and documentation throughout the capstone lifecycle.',
     ],
-    qa: 'Wrote and executed 40+ test cases covering user registration, product listing, order flow, and data validation. Identified and tracked 22 bugs using a structured defect log. Implemented Playwright for end-to-end regression testing on critical trade flows.',
+    qa: 'Wrote and executed 40+ test cases covering user registration, product listing, order flow, and data validation. Identified and tracked 22 bugs using a structured defect log. Implemented regression testing on critical trade flows.',
     outcome:
       'Successfully defended as a capstone project. Platform demonstrated live transaction flows, trader dashboards, and real-time inventory management.',
   },
@@ -66,7 +66,7 @@ export const PROJECTS = [
     duration: 'January – May 2025',
     client: 'StraStan Solutions Corp.',
     role: 'Backend Developer & QA Tester',
-    tools: ['Node.js', 'Jest', 'Playwright', 'GitHub', 'AWS'],
+    tools: ['Node.js', 'Jest', 'Playwright', 'GitHub', 'AWS', 'Discord', 'Google Workspace'],
     accent: '#c084fc',
     overview:
       'An internal IT management platform developed during a 486-hour internship to streamline organizational workflows, ticketing, and operational reporting at StraStan Solutions Corp.',
@@ -81,6 +81,30 @@ export const PROJECTS = [
     qa: 'Built a test suite using Jest for unit testing and Playwright for end-to-end flows. Created structured test cases for API endpoints and automated regression checks for core modules. Maintained a bug log, participated in triage sessions, and validated fixes before sprint closure.',
     outcome:
       'Improved test coverage from near-zero to 60%+ on core modules. Identified 18 critical bugs during QA cycles. Completed all assigned deliverables ahead of schedule.',
+  },
+  {
+    id: 'coe',
+    tag: 'Project Manangement + QA · Government / University System',
+    title: 'COE Application & Reporting System',
+    subtitle: 'Centralized platform for document management and compliance reporting',
+    duration: 'October – December 2025',
+    client: 'Bicol University - Office of the Vice President for Academic Affairs',
+    role: 'Project Manager & System Developer',
+    tools: ['TALL Stack', 'MySQL', 'Notion', 'GitHub', 'Discord', 'Google Workspace'],
+    accent: '#1accf0',
+    overview:
+      'A centralized web-based system built to digitize and streamline the Center of Excellence (COE) application and management process, including document handling and report generation.',
+    problem:
+      'The COE process relied on fragmented, manual workflows with no centralized repository, leading to inefficient document tracking, redundant work, and difficulty generating standardized reports for CHED compliance.',
+    approach: [
+      'Reviewed and mapped existing COE workflows to identify inefficiencies and system requirements.',
+      'Designed and implemented a centralized application repository with document upload and tracking features.',
+      'Led system planning and coordination with stakeholders from the ICT Office.',
+      'Developed core system functionalities while ensuring maintainability and scalability of the platform.',
+    ],
+    qa: 'Performed structured QA across core modules including document uploads, tracking flows, and report generation. Created test scenarios based on real user workflows, logged and validated bugs, and ensured system reliability before deployment.',
+    outcome:
+      'Successfully digitized the COE process into a single platform, improving accessibility, reducing manual workload, and enabling faster, standardized generation of CHED-required reports. Enhanced system maintainability and reduced dependency on manual tracking.',
   },
 ]
 
