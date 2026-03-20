@@ -106,6 +106,31 @@ export const PROJECTS = [
     outcome:
       'Successfully digitized the COE process into a single platform, improving accessibility, reducing manual workload, and enabling faster, standardized generation of CHED-required reports. Enhanced system maintainability and reduced dependency on manual tracking.',
   },
+  {
+    id: 'msp',
+    tag: 'Project Manangement + QA · Government / University System',
+    title: 'Merit System Promotion (MSP)',
+    subtitle: 'Multi-role faculty evaluation and promotion management platform',
+    duration: 'January – March 2026',
+    client: 'Bicol University - Office of the Vice President for Academic Affairs',
+    role: 'Project Manager & System Developer',
+    tools: ['TALL Stack', 'MySQL', 'GitHub', 'Discord', 'Google Workspace', 'ClickUp'],
+    accent: '#f0731a',
+    overview:
+      'A centralized web-based platform designed to manage and automate the faculty promotion process, covering application submission, multi-level evaluation, and final approval workflows across university committees.',
+    problem:
+      'The faculty promotion process relied on manual submissions, fragmented evaluations, and inconsistent tracking across multiple committees (LAC, UFMSB, and administrative offices), leading to delays, lack of transparency, and difficulty consolidating evaluation results and reports.',
+    approach: [
+      'Mapped end-to-end promotion workflows including faculty application, LAC evaluation, UFMSB deliberation, and final approval.',
+      'Designed a role-based system supporting Faculty, LAC, UFMSB, VPAA Office, and Office of the President with distinct permissions and workflows.',
+      'Implemented application lifecycle tracking (Pending, For Review, Completed, Declined) with real-time status updates.',
+      'Developed evaluation modules for requirement-level validation, scoring, and summary generation across multiple committees.',
+      'Built configurable management features for KRAs, criteria, points system, deadlines, and ranking ranges.',
+    ],
+    qa: 'Conducted end-to-end QA across multi-role workflows including application submission, LAC and UFMSB evaluations, and report generation. Tested edge cases such as declined requirements, status transitions, and role-based visibility. Logged and validated bugs, ensured accuracy of evaluation summaries, and verified system behavior against real-world promotion scenarios.',
+    outcome:
+      'Successfully digitized and standardized the faculty promotion process into a single platform, improving transparency across evaluation stages, reducing manual coordination, and enabling faster generation of qualified applicant lists and decision reports for university leadership.',
+  },
 ]
 
 export const EXPERIENCE = [
@@ -128,16 +153,16 @@ export const EXPERIENCE = [
     type: 'Contractual',
     category: 'tech',
     highlights: [
-      'Designed and built the Center of Excellence management system',
-      'Automated CHED report generation and document tracking',
-      'Reviewed legacy workflows and designed improved system architecture',
+      'Designed and built the COE Application & Reporting System',
+      'Led the development team in planning, implementation, and deployment phases of Merit System Promotion (MSP)',
+      'Act as the Project Manager and QA Lead of selected development team for projects under the ICT Office',
     ],
   },
   {
     role: 'IT & Operations Support Specialist',
     company: 'Pilar Travel and Tours Agency',
     period: 'Jul – Oct 2025',
-    type: 'Full-Time',
+    type: 'Contractual',
     category: 'tech',
     highlights: [
       'Maintained hardware, software, and network infrastructure',
@@ -161,7 +186,7 @@ export const EXPERIENCE = [
     role: 'Software Engineer Trainee',
     company: 'Institute for Economics and Telematics in Healthcare',
     period: 'Nov 2021 – Jun 2025',
-    type: 'Remote',
+    type: 'Trainee - Remote',
     category: 'tech',
     highlights: [
       'Assisted in documentation, testing, and data research for healthcare IT solutions',
