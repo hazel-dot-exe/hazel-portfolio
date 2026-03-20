@@ -4,6 +4,8 @@ import { PROJECTS } from '../lib/data'
 import SectionHeader from './SectionHeader'
 import { useScrollReveal } from '../lib/useScrollReveal'
 
+const INITIAL_COUNT = 3
+
 function CaseSection({ label, accent, children }) {
   return (
     <div>
@@ -64,7 +66,7 @@ function ProjectCard({ project, index }) {
       }}
     >
       <div className="card" style={{ overflow: 'hidden' }}>
-        {/* Card header — always visible */}
+        {/* Card header */}
         <div
           onClick={() => setOpen(!open)}
           style={{
@@ -78,7 +80,6 @@ function ProjectCard({ project, index }) {
           }}
         >
           <div style={{ flex: 1 }}>
-            {/* Tag + duration */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.85rem', flexWrap: 'wrap' }}>
               <span className="tag-gold" style={{ color: project.accent, background: `${project.accent}12`, borderColor: `${project.accent}30` }}>
                 {project.tag}
@@ -87,8 +88,6 @@ function ProjectCard({ project, index }) {
                 {project.duration}
               </span>
             </div>
-
-            {/* Title */}
             <h3 style={{
               fontFamily: '"DM Serif Display", Georgia, serif',
               fontSize: 'clamp(1.25rem, 2.5vw, 1.65rem)',
@@ -103,7 +102,6 @@ function ProjectCard({ project, index }) {
             </p>
           </div>
 
-          {/* Toggle icon */}
           <div style={{
             width: '36px', height: '36px', flexShrink: 0,
             border: '1px solid var(--border)',
@@ -127,8 +125,6 @@ function ProjectCard({ project, index }) {
           transition: 'max-height 0.55s cubic-bezier(0.4,0,0.2,1)',
         }}>
           <div style={{ borderTop: '1px solid var(--border)', padding: 'clamp(1.5rem, 3vw, 2.5rem)' }}>
-
-            {/* Left accent bar */}
             <div style={{
               borderLeft: `3px solid ${project.accent}`,
               paddingLeft: '1rem',
@@ -142,17 +138,13 @@ function ProjectCard({ project, index }) {
               <strong style={{ color: project.accent }}>Client: </strong>{project.client}
             </div>
 
-            {/* Case study grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
-
               <CaseSection label="Overview" accent={project.accent}>
                 <p style={bodyText}>{project.overview}</p>
               </CaseSection>
-
               <CaseSection label="The Problem" accent={project.accent}>
                 <p style={bodyText}>{project.problem}</p>
               </CaseSection>
-
               <CaseSection label="PM Approach" accent={project.accent}>
                 <ul style={{ paddingLeft: '1.1rem', margin: 0 }}>
                   {project.approach.map((item, i) => (
@@ -160,15 +152,12 @@ function ProjectCard({ project, index }) {
                   ))}
                 </ul>
               </CaseSection>
-
               <CaseSection label="QA Contribution" accent={project.accent}>
                 <p style={bodyText}>{project.qa}</p>
               </CaseSection>
-
               <CaseSection label="Outcome" accent={project.accent}>
                 <p style={bodyText}>{project.outcome}</p>
               </CaseSection>
-
               <CaseSection label="Tools & Stack" accent={project.accent}>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.25rem' }}>
                   {project.tools.map((t) => <ToolTag key={t} label={t} accent={project.accent} />)}
@@ -183,6 +172,23 @@ function ProjectCard({ project, index }) {
 }
 
 export default function Projects() {
+  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT)
+  const [ref, visible] = useScrollReveal()
+
+  const visibleProjects = PROJECTS.slice(0, visibleCount)
+  const hasMore = visibleCount < PROJECTS.length
+  const remaining = PROJECTS.length - visibleCount
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 2)
+  }
+
+  const handleShowLess = () => {
+    setVisibleCount(INITIAL_COUNT)
+    // Scroll back up to projects section smoothly
+    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <section id="projects" className="section-divider" style={{ padding: '8rem clamp(1.5rem, 8vw, 8rem)' }}>
       <SectionHeader
@@ -190,9 +196,73 @@ export default function Projects() {
         title="Case Studies"
         subtitle="Each project below is documented as a full case study — covering the problem, my approach, QA process, and outcomes."
       />
-      {PROJECTS.map((project, i) => (
+
+      {/* Project cards */}
+      {visibleProjects.map((project, i) => (
         <ProjectCard key={project.id} project={project} index={i} />
       ))}
+
+      {/* Load More / Show Less */}
+      <div
+        ref={ref}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1rem',
+          marginTop: '2.5rem',
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(16px)',
+          transition: 'opacity 0.5s ease, transform 0.5s ease',
+        }}
+      >
+        {/* Progress indicator */}
+        <p style={{
+          fontFamily: '"DM Sans", sans-serif',
+          fontSize: '0.78rem',
+          color: 'var(--faint)',
+          letterSpacing: '0.06em',
+        }}>
+          Showing {visibleProjects.length} of {PROJECTS.length} projects
+        </p>
+
+        {/* Progress bar */}
+        <div style={{
+          width: '200px',
+          height: '2px',
+          background: 'var(--border)',
+          borderRadius: '2px',
+          overflow: 'hidden',
+        }}>
+          <div style={{
+            height: '100%',
+            width: `${(visibleProjects.length / PROJECTS.length) * 100}%`,
+            background: 'var(--gold)',
+            borderRadius: '2px',
+            transition: 'width 0.4s ease',
+          }} />
+        </div>
+
+        {/* Buttons */}
+        <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {hasMore && (
+            <button
+              onClick={handleLoadMore}
+              className="btn-primary"
+            >
+              Load More ({remaining} remaining)
+            </button>
+          )}
+          {visibleCount > INITIAL_COUNT && (
+            <button
+              onClick={handleShowLess}
+              className="btn-outline"
+            >
+              ↑ Show Less
+            </button>
+          )}
+        </div>
+      </div>
     </section>
   )
 }
