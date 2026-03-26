@@ -12,40 +12,52 @@ import Footer from '../components/Footer'
 const SplashScreen = dynamic(() => import('../components/SplashScreen'), { ssr: false })
 
 export default function Home() {
-  const [showSplash, setShowSplash] = useState(true)
+  const [showSplash, setShowSplash] = useState(false)
   const [splashDone, setSplashDone] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const seen = sessionStorage.getItem('splash-seen')
     if (seen) {
+      // Already seen — show portfolio immediately, no fade delay
       setShowSplash(false)
       setSplashDone(true)
+    } else {
+      // First visit — show splash
+      setShowSplash(true)
+      setSplashDone(false)
     }
   }, [])
 
   const handleEnter = () => {
     sessionStorage.setItem('splash-seen', 'true')
     setShowSplash(false)
+    // Small delay for the splash fade-out animation
     setTimeout(() => setSplashDone(true), 800)
   }
 
-  // Logo click → clear session and show splash again
+  // Logo click → reset splash
   const handleLogoClick = () => {
     sessionStorage.removeItem('splash-seen')
     setSplashDone(false)
-    setShowSplash(true)
-    // Scroll back to top
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0 })
+    setTimeout(() => setShowSplash(true), 50)
   }
+
+  // Prevent flash before mount
+  if (!mounted) return null
 
   return (
     <>
       {showSplash && <SplashScreen onEnter={handleEnter} />}
 
+      {/* Portfolio — always rendered but opacity controlled */}
       <div style={{
         opacity: splashDone ? 1 : 0,
-        transition: 'opacity 0.6s ease',
-        pointerEvents: splashDone ? 'auto' : 'none',
+        transition: splashDone ? 'opacity 0.6s ease' : 'none',
+        // Always keep in DOM so navigation back works
+        visibility: splashDone ? 'visible' : 'hidden',
       }}>
         <Navbar onLogoClick={handleLogoClick} />
         <main>

@@ -1,10 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { STATS, SOCIAL } from '../lib/data'
+import { getStats, SOCIAL } from '../lib/data'
 
 export default function Hero() {
   const [loaded, setLoaded] = useState(false)
+  const [imgError, setImgError] = useState(false)
+  const stats = getStats()
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 80)
@@ -17,6 +19,10 @@ export default function Hero() {
     transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
   })
 
+  const scrollToContact = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <section
       id="home"
@@ -25,23 +31,21 @@ export default function Hero() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: '80px clamp(1.25rem, 6vw, 8rem) 4rem',
+        // Reduced bottom padding so gap to next section is tighter
+        padding: '80px clamp(1.25rem, 6vw, 8rem) 3rem',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
-      {/* Grid bg */}
+      {/* Backgrounds */}
       <div className="grid-bg" style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
-      <div className="glow-orb" style={{ position: 'absolute', top: '15%', right: '8%', width: '500px', height: '500px', borderRadius: '50%', zIndex: 0 }} />
+      <div className="glow-orb" style={{ position: 'absolute', top: '15%', right: '5%', width: '500px', height: '500px', borderRadius: '50%', zIndex: 0 }} />
       <div className="glow-orb" style={{ position: 'absolute', bottom: '10%', left: '5%', width: '300px', height: '300px', borderRadius: '50%', zIndex: 0 }} />
 
-      {/* Content */}
-      <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '1100px' }}>
-
-        {/* Two-column on desktop, stacked on mobile */}
+      <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '1200px' }}>
         <div className="hero-grid">
 
-          {/* LEFT — text */}
+          {/* LEFT — text content */}
           <div className="hero-text">
             <div style={fade(0)}>
               <span className="tag-gold" style={{ marginBottom: '1.5rem', display: 'inline-block' }}>
@@ -60,7 +64,7 @@ export default function Hero() {
               marginBottom: '1.25rem',
               ...fade(120),
             }}>
-              Hazel<br />
+              Hazel <br />
               <span style={{ color: 'var(--faint)' }}>Marqueses</span>
             </h1>
 
@@ -76,6 +80,7 @@ export default function Hero() {
               I bridge the gap between technical execution and project clarity — leading teams, ensuring quality, and delivering software that works the way it should.
             </p>
 
+            {/* CTAs */}
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '3rem', ...fade(360) }}>
               <button
                 onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
@@ -83,11 +88,13 @@ export default function Hero() {
               >
                 View Case Studies →
               </button>
-              <a href={`mailto:${SOCIAL.email}`} className="btn-outline">
+              {/* Get in Touch → scrolls to contact section */}
+              <button onClick={scrollToContact} className="btn-outline">
                 Get in Touch
-              </a>
+              </button>
             </div>
 
+            {/* Dynamic stats — auto-updates when you add projects/experience */}
             <div style={{
               display: 'flex',
               gap: 'clamp(1.25rem, 4vw, 3rem)',
@@ -96,12 +103,25 @@ export default function Hero() {
               borderTop: '1px solid var(--border)',
               ...fade(480),
             }}>
-              {STATS.map(({ value, label }) => (
+              {stats.map(({ value, label }) => (
                 <div key={label}>
-                  <div style={{ fontFamily: '"DM Serif Display", Georgia, serif', fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', color: 'var(--gold)', lineHeight: 1 }}>
+                  <div style={{
+                    fontFamily: '"DM Serif Display", Georgia, serif',
+                    fontSize: 'clamp(1.6rem, 3vw, 2.2rem)',
+                    color: 'var(--gold)',
+                    lineHeight: 1,
+                  }}>
                     {value}
                   </div>
-                  <div style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.72rem', color: 'var(--muted)', marginTop: '0.3rem', letterSpacing: '0.05em' }}>
+                  <div style={{
+                    fontFamily: '"DM Sans", sans-serif',
+                    fontSize: '0.7rem',
+                    color: 'var(--muted)',
+                    marginTop: '0.3rem',
+                    letterSpacing: '0.04em',
+                    maxWidth: '100px',
+                    lineHeight: 1.4,
+                  }}>
                     {label}
                   </div>
                 </div>
@@ -109,75 +129,89 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT — photo */}
-          <div className="hero-photo" style={fade(200)}>
-            <div style={{ position: 'relative', width: '100%', maxWidth: '300px', margin: '0 auto' }}>
-              {/* Aspect ratio wrapper */}
-              <div style={{ position: 'relative', paddingBottom: '125%' }}>
+          {/* RIGHT — photo, bigger and pushed right */}
+          <div className="hero-photo" style={fade(150)}>
+            {/* Outer wrapper — pushed slightly to the right */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '340px',
+              marginLeft: 'auto',  // pushes to the right
+              marginRight: '-1rem', // slightly outside the column
+            }}>
+              {/* Aspect ratio box */}
+              <div style={{ position: 'relative', paddingBottom: '120%' }}>
                 {/* Corner brackets */}
-                <div style={{ position: 'absolute', top: '-10px', left: '-10px', width: '28px', height: '28px', borderTop: '2px solid var(--gold)', borderLeft: '2px solid var(--gold)', zIndex: 2 }} />
-                <div style={{ position: 'absolute', bottom: '-10px', right: '-10px', width: '28px', height: '28px', borderBottom: '2px solid var(--gold)', borderRight: '2px solid var(--gold)', zIndex: 2 }} />
-                {/* Offset border */}
-                <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--gold-border)', transform: 'translate(8px, 8px)', zIndex: 0 }} />
-                {/* Photo */}
+                <div style={{ position: 'absolute', top: '-12px', left: '-12px', width: '32px', height: '32px', borderTop: '2px solid var(--gold)', borderLeft: '2px solid var(--gold)', zIndex: 2 }} />
+                <div style={{ position: 'absolute', bottom: '-12px', right: '-12px', width: '32px', height: '32px', borderBottom: '2px solid var(--gold)', borderRight: '2px solid var(--gold)', zIndex: 2 }} />
+                {/* Gold offset border */}
+                <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--gold-border)', transform: 'translate(10px, 10px)', zIndex: 0 }} />
+                {/* Photo container */}
                 <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--border)', overflow: 'hidden', zIndex: 1, background: 'var(--surface)' }}>
-                  <Image
-                    src="/profile.jpg"
-                    alt="Hazel Anne B. Marqueses"
-                    fill
-                    sizes="(max-width: 768px) 200px, 300px"
-                    style={{ objectFit: 'cover', objectPosition: 'top center' }}
-                    priority
-                  />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', background: 'linear-gradient(to top, rgba(8,8,12,0.35), transparent)', zIndex: 1 }} />
+                  {imgError ? (
+                    // Fallback placeholder
+                    <div style={{
+                      width: '100%', height: '100%',
+                      display: 'flex', flexDirection: 'column',
+                      alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+                    }}>
+                      <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'var(--gold-dim)', border: '1px solid var(--gold-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{ fontFamily: '"DM Serif Display", serif', fontSize: '1.8rem', color: 'var(--gold)' }}>H</span>
+                      </div>
+                      <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.7rem', color: 'var(--faint)', letterSpacing: '0.1em' }}>HAZEL</span>
+                    </div>
+                  ) : (
+                    <Image
+                      src="/profile.jpg"
+                      alt="Hazel Anne B. Marqueses"
+                      fill
+                      sizes="(max-width: 700px) 220px, 340px"
+                      style={{ objectFit: 'cover', objectPosition: 'top center' }}
+                      priority
+                      onError={() => setImgError(true)}
+                    />
+                  )}
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '25%', background: 'linear-gradient(to top, rgba(8,8,12,0.3), transparent)', zIndex: 2 }} />
                 </div>
               </div>
 
               {/* Availability badge */}
               <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '7px', justifyContent: 'center' }}>
                 <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#5cb85c', boxShadow: '0 0 6px #5cb85c' }} />
-                <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.72rem', color: 'var(--muted)', letterSpacing: '0.06em' }}>
+                <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.7rem', color: 'var(--muted)', letterSpacing: '0.06em' }}>
                   Open to opportunities
                 </span>
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div style={{
-        position: 'absolute', bottom: '2rem', left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
-        ...fade(600),
-      }}>
-        <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--faint)' }}>Scroll</span>
-        <div style={{ width: '1px', height: '36px', background: 'linear-gradient(to bottom, var(--gold), transparent)' }} />
-      </div>
+      {/* NO scroll indicator — removed as requested */}
 
       <style>{`
         .hero-grid {
           display: grid;
-          grid-template-columns: 1fr auto;
-          gap: clamp(2rem, 5vw, 5rem);
+          grid-template-columns: 1fr 380px;
+          gap: clamp(2rem, 4vw, 4rem);
           align-items: center;
         }
-        .hero-photo {
-          flex-shrink: 0;
-          width: clamp(160px, 25vw, 300px);
-        }
-        @media (max-width: 700px) {
+        .hero-photo { flex-shrink: 0; }
+        @media (max-width: 768px) {
           .hero-grid {
             grid-template-columns: 1fr;
-            gap: 2.5rem;
+            gap: 2rem;
           }
           .hero-photo {
-            width: 100%;
             order: -1;
+            width: 100%;
           }
           .hero-photo > div {
-            max-width: 200px !important;
+            margin-right: 0 !important;
+            max-width: 220px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
           }
         }
       `}</style>

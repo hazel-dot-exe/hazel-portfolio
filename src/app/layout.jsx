@@ -11,7 +11,7 @@ export const metadata = {
     'Philippines', 'Hazel Marqueses',
   ],
   openGraph: {
-    title: 'Hazel Marqueses — Project Manager & QA Specialist',
+    title: 'Hazel Anne B. Marqueses — Project Manager & QA Specialist',
     description: 'IT professional bridging technical execution and project clarity.',
     type: 'website',
   },
@@ -23,6 +23,10 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Prevent flash of invisible content on navigation */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          body { opacity: 1 !important; visibility: visible !important; }
+        ` }} />
       </head>
       <body>
         <ThemeProvider>

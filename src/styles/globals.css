@@ -19,7 +19,7 @@
   --glow: rgba(232,184,109,0.07);
 }
 
-/* Warm cream — elegant, not bright, beautiful with gold */
+/* Warm cream — elegant, pairs beautifully with gold */
 .light {
   --bg: #f7f3eb;
   --surface: rgba(0,0,0,0.03);
@@ -46,6 +46,10 @@ body {
   overflow-x: hidden;
 }
 
+/* ── FIX: prevent blank page after navigation ─────────────────────── */
+/* Ensures the page is always visible after route changes */
+body { opacity: 1 !important; }
+
 /* ── SCROLLBAR ────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
@@ -54,20 +58,12 @@ body {
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* ── UTILITY ─────────────────────────────────────────────────────── */
-.text-gold     { color: var(--gold); }
-.text-muted    { color: var(--muted); }
-.text-faint    { color: var(--faint); }
-.text-main     { color: var(--text); }
-.bg-surface    { background: var(--surface); }
-.border-theme  { border-color: var(--border); }
-.border-gold   { border-color: var(--gold-border); }
-
 .tag-gold {
   background: var(--gold-dim);
   border: 1px solid var(--gold-border);
   color: var(--gold);
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(0.6rem, 1.4vw, 0.7rem);
+  font-size: clamp(0.6rem, 1.4vw, 0.68rem);
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -85,7 +81,7 @@ body {
   margin-bottom: 0.75rem;
 }
 
-/* ── GRID BACKGROUND ─────────────────────────────────────────────── */
+/* ── GRID / GLOW ─────────────────────────────────────────────────── */
 .grid-bg {
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
@@ -110,7 +106,7 @@ body {
   background: var(--gold);
   color: #08080c;
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(0.75rem, 1.5vw, 0.82rem);
+  font-size: clamp(0.74rem, 1.5vw, 0.82rem);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -128,7 +124,7 @@ body {
   background: transparent;
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(0.75rem, 1.5vw, 0.82rem);
+  font-size: clamp(0.74rem, 1.5vw, 0.82rem);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -154,12 +150,20 @@ body {
   outline: none;
   transition: border-color 0.2s;
   -webkit-appearance: none;
+  border-radius: 0;
 }
 .input-field::placeholder { color: var(--faint); }
 .input-field:focus { border-color: var(--gold); }
 
-/* ── DIVIDER ─────────────────────────────────────────────────────── */
-.section-divider { border-top: 1px solid var(--border); }
+/* ── DIVIDER + REDUCED SECTION GAPS ─────────────────────────────── */
+.section-divider {
+  border-top: 1px solid var(--border);
+  /* Reduced from 8rem to 5rem top/bottom for tighter spacing */
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  padding-left: clamp(1.25rem, 6vw, 8rem);
+  padding-right: clamp(1.25rem, 6vw, 8rem);
+}
 
 /* ── NAV LINK ────────────────────────────────────────────────────── */
 .nav-link {
@@ -182,72 +186,29 @@ body {
   border-bottom-color: var(--gold);
 }
 
-/* ── CASE STUDY SECTION ──────────────────────────────────────────── */
-.case-label {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.67rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.75rem;
-  border-bottom: 1px solid;
-}
-
 /* ── MOBILE RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 768px) {
-  /* Contact form grid — stack on mobile */
+  .section-divider {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    padding-left: clamp(1rem, 5vw, 1.5rem) !important;
+    padding-right: clamp(1rem, 5vw, 1.5rem) !important;
+  }
+
   .contact-grid {
     grid-template-columns: 1fr !important;
   }
 
-  /* Section padding reduced */
-  section {
-    padding-left: clamp(1rem, 5vw, 2rem) !important;
-    padding-right: clamp(1rem, 5vw, 2rem) !important;
-  }
-
-  /* Skills grid — single col on mobile */
-  .skills-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Projects expand grid */
-  .project-case-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Experience grid */
-  .experience-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Tag wrapping */
-  .tag-gold {
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    padding: 2px 8px;
-  }
-
-  /* Footer */
   footer {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 0.75rem !important;
   }
-
-  /* Reduce section vertical padding */
-  .section-divider {
-    padding-top: 5rem !important;
-    padding-bottom: 5rem !important;
-  }
 }
 
 @media (max-width: 480px) {
-  /* Very small screens */
   .btn-primary, .btn-outline {
     width: 100%;
     text-align: center;
-    justify-content: center;
   }
 }

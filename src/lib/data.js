@@ -326,9 +326,26 @@ export const SKILLS = {
   ],
 }
 
-export const STATS = [
-  { value: '5+', label: 'Years of Experience' },
-  { value: '6+', label: 'Projects Delivered' },
-  { value: '3', label: 'Roles: PM · QA · Dev' },
-  { value: '60%+', label: 'Test Coverage Achieved' },
+// ── DYNAMIC STATS — auto-computed from PROJECTS and EXPERIENCE ────────────────
+// Add to these arrays and the hero stats update automatically
+ 
+// Unique roles across career
+const uniqueRoles = [...new Set(EXPERIENCE.map(e => e.category))].length
+ 
+export const getStats = () => [
+  {
+    value: `${EXPERIENCE.length}+`,
+    label: 'Years of Experience',
+  },
+  {
+    value: `${PROJECTS.length}+`,
+    label: 'Projects Delivered',
+  },
+  {
+    value: `${uniqueRoles}`,
+    label: 'Disciplines: PM · QA · Dev',
+  },
 ]
+ 
+// Keep STATS as a static export for any other components still referencing it
+export const STATS = getStats()

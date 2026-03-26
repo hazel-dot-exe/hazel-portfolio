@@ -38,7 +38,7 @@ export default function ProfileImage() {
   return (
     <Image
       src="/profile.jpg"
-      alt="Hazel Anne B. Marqueses"
+      alt="Hazel Marqueses"
       fill
       sizes="(max-width: 700px) 200px, 300px"
       style={{ objectFit: 'cover', objectPosition: 'top center' }}

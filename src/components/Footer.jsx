@@ -20,7 +20,7 @@ export default function Footer() {
       </div>
 
       <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.76rem', color: 'var(--faint)', letterSpacing: '0.04em' }}>
-        © {year} Hazel Anne B. Marqueses · Project Manager & QA Specialist
+        © {year} Hazel Marqueses · Project Manager & QA Specialist
       </p>
 
       <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
