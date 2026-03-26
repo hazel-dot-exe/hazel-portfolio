@@ -15,7 +15,6 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(true)
   const [splashDone, setSplashDone] = useState(false)
 
-  // Check if visitor has already seen the splash this session
   useEffect(() => {
     const seen = sessionStorage.getItem('splash-seen')
     if (seen) {
@@ -30,17 +29,25 @@ export default function Home() {
     setTimeout(() => setSplashDone(true), 800)
   }
 
+  // Logo click → clear session and show splash again
+  const handleLogoClick = () => {
+    sessionStorage.removeItem('splash-seen')
+    setSplashDone(false)
+    setShowSplash(true)
+    // Scroll back to top
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <>
-      {/* Splash — only shown once per browser session */}
       {showSplash && <SplashScreen onEnter={handleEnter} />}
 
-      {/* Main portfolio — fades in after splash */}
       <div style={{
         opacity: splashDone ? 1 : 0,
         transition: 'opacity 0.6s ease',
+        pointerEvents: splashDone ? 'auto' : 'none',
       }}>
-        <Navbar />
+        <Navbar onLogoClick={handleLogoClick} />
         <main>
           <Hero />
           <Projects />
