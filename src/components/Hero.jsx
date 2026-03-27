@@ -160,17 +160,54 @@ export default function Hero() {
             <div style={{
               position: 'relative',
               width: '100%',
-              maxWidth: '340px',
+              maxWidth: '400px',
               marginLeft: 'auto',
-              marginRight: '-0.5rem',
+              marginRight: '-2rem',
+              // Extra padding so corner brackets and offset border don't clip
+              padding: '14px 14px 0 14px',
             }}>
-              {/* Corner brackets */}
-              <div style={{ position: 'absolute', top: '-12px', left: '-12px', width: '30px', height: '30px', borderTop: '2px solid var(--gold)', borderLeft: '2px solid var(--gold)', zIndex: 2, pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', bottom: '-12px', right: '-12px', width: '30px', height: '30px', borderBottom: '2px solid var(--gold)', borderRight: '2px solid var(--gold)', zIndex: 2, pointerEvents: 'none' }} />
-              {/* Offset gold border */}
-              <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--gold-border)', transform: 'translate(10px, 10px)', zIndex: 0, pointerEvents: 'none' }} />
-
-              {/* Photo — using plain <img> for reliable production display */}
+ 
+              {/* Gold offset border — sits behind the photo */}
+              <div style={{
+                position: 'absolute',
+                top: '14px',
+                left: '14px',
+                right: '14px',
+                // Height matches the photo box below
+                bottom: '0',
+                border: '1px solid var(--gold-border)',
+                transform: 'translate(10px, 10px)',
+                zIndex: 0,
+                pointerEvents: 'none',
+              }} />
+ 
+              {/* Top-left corner bracket */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '28px',
+                height: '28px',
+                borderTop: '2px solid var(--gold)',
+                borderLeft: '2px solid var(--gold)',
+                zIndex: 3,
+                pointerEvents: 'none',
+              }} />
+ 
+              {/* Bottom-right corner bracket */}
+              <div style={{
+                position: 'absolute',
+                bottom: -11,
+                right: 3,
+                width: '28px',
+                height: '28px',
+                borderBottom: '2px solid var(--gold)',
+                borderRight: '2px solid var(--gold)',
+                zIndex: 3,
+                pointerEvents: 'none',
+              }} />
+ 
+              {/* ── Photo box — border wraps the image tightly ── */}
               <div style={{
                 position: 'relative',
                 zIndex: 1,
@@ -178,13 +215,12 @@ export default function Hero() {
                 overflow: 'hidden',
                 background: 'var(--surface)',
                 width: '100%',
-                // Fixed height instead of aspect ratio trick
-                height: 'clamp(280px, 40vw, 420px)',
+                height: 'clamp(280px, 38vw, 400px)',
               }}>
                 {!imgError ? (
                   <img
                     src="/profile.jpg"
-                    alt="Hazel Marqueses"
+                    alt="Hazel Anne B. Marqueses"
                     onError={() => setImgError(true)}
                     style={{
                       width: '100%',
@@ -200,28 +236,51 @@ export default function Hero() {
                     display: 'flex', flexDirection: 'column',
                     alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
                   }}>
-                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'var(--gold-dim)', border: '1px solid var(--gold-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{
+                      width: '64px', height: '64px', borderRadius: '50%',
+                      background: 'var(--gold-dim)', border: '1px solid var(--gold-border)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
                       <span style={{ fontFamily: '"DM Serif Display", serif', fontSize: '1.8rem', color: 'var(--gold)' }}>H</span>
                     </div>
                     <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.7rem', color: 'var(--faint)', letterSpacing: '0.1em' }}>HAZEL</span>
                   </div>
                 )}
-                {/* Gradient overlay */}
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '25%', background: 'linear-gradient(to top, rgba(8,8,12,0.25), transparent)', zIndex: 2, pointerEvents: 'none' }} />
               </div>
-
-              {/* Availability badge */}
-              <div style={{ marginTop: '0.85rem', display: 'flex', alignItems: 'center', gap: '7px', justifyContent: 'center' }}>
-                <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#5cb85c', boxShadow: '0 0 6px #5cb85c', flexShrink: 0 }} />
-                <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.7rem', color: 'var(--muted)', letterSpacing: '0.05em' }}>
-                  Open to opportunities
-                </span>
-              </div>
+ 
+            </div>
+ 
+            {/* ── Availability badge — completely outside the photo frame ── */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px',
+              justifyContent: 'center',
+              marginTop: '1rem',
+              maxWidth: '320px',
+              marginLeft: 'auto',
+              marginRight: '-0.5rem',
+            }}>
+              <div style={{
+                width: '7px', height: '7px', borderRadius: '50%',
+                background: '#5cb85c',
+                boxShadow: '0 0 6px #5cb85c',
+                flexShrink: 0,
+              }} />
+              <span style={{
+                fontFamily: '"DM Sans", sans-serif',
+                fontSize: '0.7rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.05em',
+              }}>
+                Open to opportunities
+              </span>
             </div>
           </div>
+ 
         </div>
       </div>
-
+ 
       <style>{`
         .hero-grid {
           display: grid;
@@ -237,7 +296,12 @@ export default function Hero() {
           .hero-photo-wrap {
             order: -1;
           }
-          .hero-photo-wrap > div {
+          .hero-photo-wrap > div:first-child {
+            max-width: 200px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+          .hero-photo-wrap > div:last-child {
             max-width: 200px !important;
             margin-left: auto !important;
             margin-right: auto !important;
