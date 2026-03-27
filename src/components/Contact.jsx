@@ -86,7 +86,7 @@ export default function Contact() {
           {/* Left: info */}
           <div>
             <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.95rem', lineHeight: 1.8, color: 'var(--muted)', marginBottom: '2.5rem' }}>
-              Open to project management and QA roles, freelance projects, and collaboration opportunities. I respond to every message personally.
+              Interested in working together? Whether it's a project management role, QA position, or just a conversation — I'd love to hear from you.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>

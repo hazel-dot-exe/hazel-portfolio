@@ -19,7 +19,7 @@
   --glow: rgba(232,184,109,0.07);
 }
 
-/* Warm cream — elegant, pairs beautifully with gold */
+/* Warm cream — elegant, not bright, pairs beautifully with gold */
 .light {
   --bg: #f7f3eb;
   --surface: rgba(0,0,0,0.03);
@@ -37,6 +37,7 @@
 /* ── BASE ─────────────────────────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -44,11 +45,10 @@ body {
   transition: background 0.35s ease, color 0.35s ease;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  /* Always visible — prevents blank page on navigation return */
+  opacity: 1 !important;
+  visibility: visible !important;
 }
-
-/* ── FIX: prevent blank page after navigation ─────────────────────── */
-/* Ensures the page is always visible after route changes */
-body { opacity: 1 !important; }
 
 /* ── SCROLLBAR ────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
@@ -58,19 +58,6 @@ body { opacity: 1 !important; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* ── UTILITY ─────────────────────────────────────────────────────── */
-.tag-gold {
-  background: var(--gold-dim);
-  border: 1px solid var(--gold-border);
-  color: var(--gold);
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(0.6rem, 1.4vw, 0.68rem);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  display: inline-block;
-}
-
 .section-label {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.7rem;
@@ -79,6 +66,20 @@ body { opacity: 1 !important; }
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 0.75rem;
+}
+
+.tag-gold {
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(0.55rem, 1.2vw, 0.68rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  display: inline-block;
+  line-height: 1.6;
 }
 
 /* ── GRID / GLOW ─────────────────────────────────────────────────── */
@@ -106,11 +107,11 @@ body { opacity: 1 !important; }
   background: var(--gold);
   color: #08080c;
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(0.74rem, 1.5vw, 0.82rem);
+  font-size: clamp(0.72rem, 1.4vw, 0.82rem);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.8rem clamp(1rem, 3vw, 2rem);
+  padding: 0.78rem clamp(0.9rem, 2.5vw, 1.8rem);
   border: none;
   cursor: pointer;
   display: inline-block;
@@ -124,11 +125,11 @@ body { opacity: 1 !important; }
   background: transparent;
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(0.74rem, 1.5vw, 0.82rem);
+  font-size: clamp(0.72rem, 1.4vw, 0.82rem);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.8rem clamp(1rem, 3vw, 2rem);
+  padding: 0.78rem clamp(0.9rem, 2.5vw, 1.8rem);
   border: 1px solid var(--border);
   cursor: pointer;
   display: inline-block;
@@ -143,9 +144,9 @@ body { opacity: 1 !important; }
   width: 100%;
   background: var(--surface);
   border: 1px solid var(--border);
-  padding: 0.85rem 1rem;
+  padding: 0.82rem 1rem;
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--text);
   outline: none;
   transition: border-color 0.2s;
@@ -155,14 +156,10 @@ body { opacity: 1 !important; }
 .input-field::placeholder { color: var(--faint); }
 .input-field:focus { border-color: var(--gold); }
 
-/* ── DIVIDER + REDUCED SECTION GAPS ─────────────────────────────── */
+/* ── SECTION SPACING — tighter gaps between sections ─────────────── */
 .section-divider {
   border-top: 1px solid var(--border);
-  /* Reduced from 8rem to 5rem top/bottom for tighter spacing */
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-  padding-left: clamp(1.25rem, 6vw, 8rem);
-  padding-right: clamp(1.25rem, 6vw, 8rem);
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 6vw, 8rem);
 }
 
 /* ── NAV LINK ────────────────────────────────────────────────────── */
@@ -186,23 +183,21 @@ body { opacity: 1 !important; }
   border-bottom-color: var(--gold);
 }
 
-/* ── MOBILE RESPONSIVE ───────────────────────────────────────────── */
+/* ── MOBILE ───────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .section-divider {
-    padding-top: 4rem !important;
-    padding-bottom: 4rem !important;
-    padding-left: clamp(1rem, 5vw, 1.5rem) !important;
-    padding-right: clamp(1rem, 5vw, 1.5rem) !important;
+    padding: clamp(2.5rem, 8vw, 3.5rem) clamp(1rem, 5vw, 1.5rem) !important;
   }
 
+  /* Contact form: single column */
   .contact-grid {
     grid-template-columns: 1fr !important;
   }
 
-  footer {
+  /* Footer stacked */
+  footer > div {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 0.75rem !important;
   }
 }
 

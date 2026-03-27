@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
@@ -12,52 +12,69 @@ import Footer from '../components/Footer'
 const SplashScreen = dynamic(() => import('../components/SplashScreen'), { ssr: false })
 
 export default function Home() {
-  const [showSplash, setShowSplash] = useState(false)
-  const [splashDone, setSplashDone] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  const [showSplash, setShowSplash]   = useState(false)
+  const [splashDone, setSplashDone]   = useState(false)
+  const [mounted, setMounted]         = useState(false)
 
   useEffect(() => {
     setMounted(true)
+
+    // Always make body fully visible — fixes blank page after external navigation
+    document.body.style.opacity    = '1'
+    document.body.style.visibility = 'visible'
+
     const seen = sessionStorage.getItem('splash-seen')
     if (seen) {
-      // Already seen — show portfolio immediately, no fade delay
       setShowSplash(false)
       setSplashDone(true)
     } else {
-      // First visit — show splash
       setShowSplash(true)
-      setSplashDone(false)
+    }
+
+    // Fix: when user returns from resume PDF or any external link,
+    // the page may be hidden — force it visible on focus/pageshow
+    const handleVisible = () => {
+      document.body.style.opacity    = '1'
+      document.body.style.visibility = 'visible'
+      const alreadySeen = sessionStorage.getItem('splash-seen')
+      if (alreadySeen) setSplashDone(true)
+    }
+
+    window.addEventListener('pageshow', handleVisible)
+    window.addEventListener('focus',    handleVisible)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') handleVisible()
+    })
+
+    return () => {
+      window.removeEventListener('pageshow', handleVisible)
+      window.removeEventListener('focus',    handleVisible)
     }
   }, [])
 
-  const handleEnter = () => {
+  const handleEnter = useCallback(() => {
     sessionStorage.setItem('splash-seen', 'true')
     setShowSplash(false)
-    // Small delay for the splash fade-out animation
-    setTimeout(() => setSplashDone(true), 800)
-  }
+    setTimeout(() => setSplashDone(true), 700)
+  }, [])
 
-  // Logo click → reset splash
-  const handleLogoClick = () => {
+  const handleLogoClick = useCallback(() => {
     sessionStorage.removeItem('splash-seen')
     setSplashDone(false)
     window.scrollTo({ top: 0 })
     setTimeout(() => setShowSplash(true), 50)
-  }
+  }, [])
 
-  // Prevent flash before mount
   if (!mounted) return null
 
   return (
     <>
       {showSplash && <SplashScreen onEnter={handleEnter} />}
 
-      {/* Portfolio — always rendered but opacity controlled */}
       <div style={{
-        opacity: splashDone ? 1 : 0,
-        transition: splashDone ? 'opacity 0.6s ease' : 'none',
-        // Always keep in DOM so navigation back works
-        visibility: splashDone ? 'visible' : 'hidden',
+        opacity:     splashDone ? 1 : 0,
+        visibility:  splashDone ? 'visible' : 'hidden',
+        transition:  'opacity 0.6s ease',
       }}>
         <Navbar onLogoClick={handleLogoClick} />
         <main>

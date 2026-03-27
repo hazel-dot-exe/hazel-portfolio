@@ -1,12 +1,29 @@
 'use client'
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { getStats, SOCIAL } from '../lib/data'
+import { PROJECTS, EXPERIENCE, SOCIAL } from '../lib/data'
+
+// Compute stats dynamically — excludes internship/trainee from experience count
+function computeStats() {
+  // Years of experience: count only non-internship, non-trainee roles
+  const qualifiedRoles = EXPERIENCE.filter(e => {
+    const t = e.type?.toLowerCase() || ''
+    return !t.includes('internship') && !t.includes('trainee') && !t.includes('remote')
+  })
+
+  // Unique disciplines
+  const disciplines = [...new Set(EXPERIENCE.map(e => e.category))].length
+
+  return [
+    { value: `${qualifiedRoles.length}+`, label: 'Work\nExperience' },
+    { value: `${PROJECTS.length}+`,       label: 'Projects\nDelivered' },
+    { value: `${disciplines}`,             label: 'Disciplines\nPM · QA · Dev' },
+  ]
+}
 
 export default function Hero() {
   const [loaded, setLoaded] = useState(false)
   const [imgError, setImgError] = useState(false)
-  const stats = getStats()
+  const stats = computeStats()
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 80)
@@ -15,28 +32,20 @@ export default function Hero() {
 
   const fade = (delay) => ({
     opacity: loaded ? 1 : 0,
-    transform: loaded ? 'translateY(0)' : 'translateY(28px)',
+    transform: loaded ? 'translateY(0)' : 'translateY(24px)',
     transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
   })
 
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
-    <section
-      id="home"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        // Reduced bottom padding so gap to next section is tighter
-        padding: '80px clamp(1.25rem, 6vw, 8rem) 3rem',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
+    <section id="home" style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      padding: '80px clamp(1.25rem, 6vw, 8rem) 3rem',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
       {/* Backgrounds */}
       <div className="grid-bg" style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
       <div className="glow-orb" style={{ position: 'absolute', top: '15%', right: '5%', width: '500px', height: '500px', borderRadius: '50%', zIndex: 0 }} />
@@ -45,35 +54,49 @@ export default function Hero() {
       <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '1200px' }}>
         <div className="hero-grid">
 
-          {/* LEFT — text content */}
-          <div className="hero-text">
-            <div style={fade(0)}>
-              <span className="tag-gold" style={{ marginBottom: '1.5rem', display: 'inline-block' }}>
+          {/* ── LEFT: text ── */}
+          <div>
+            {/* Role badge — wraps gracefully on mobile */}
+            <div style={{ ...fade(0), marginBottom: '1.25rem' }}>
+              <span style={{
+                background: 'var(--gold-dim)',
+                border: '1px solid var(--gold-border)',
+                color: 'var(--gold)',
+                fontFamily: '"DM Sans", sans-serif',
+                fontSize: 'clamp(0.55rem, 1.2vw, 0.68rem)',
+                fontWeight: 600,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                padding: '4px 10px',
+                display: 'inline-block',
+                lineHeight: 1.6,
+                whiteSpace: 'normal',
+                wordBreak: 'break-word',
+              }}>
                 Project Manager · QA Specialist · IT Professional
               </span>
             </div>
 
             <h1 style={{
               fontFamily: '"DM Serif Display", Georgia, serif',
-              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+              fontSize: 'clamp(2.4rem, 5.5vw, 4.8rem)',
               fontWeight: 400,
               lineHeight: 1.05,
               color: 'var(--text)',
               letterSpacing: '-0.01em',
-              marginTop: '0.75rem',
               marginBottom: '1.25rem',
               ...fade(120),
             }}>
-              Hazel <br />
-              <span style={{ color: 'var(--faint)' }}>Marqueses</span>
+              Hazel Anne<br />
+              <span style={{ color: 'var(--faint)' }}> Marqueses</span>
             </h1>
 
             <p style={{
               fontFamily: '"DM Sans", sans-serif',
-              fontSize: 'clamp(0.9rem, 1.6vw, 1.1rem)',
+              fontSize: 'clamp(0.88rem, 1.5vw, 1.05rem)',
               lineHeight: 1.8,
               color: 'var(--muted)',
-              maxWidth: '500px',
+              maxWidth: '480px',
               marginBottom: '2rem',
               ...fade(240),
             }}>
@@ -81,46 +104,49 @@ export default function Hero() {
             </p>
 
             {/* CTAs */}
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '3rem', ...fade(360) }}>
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2.5rem', ...fade(360) }}>
               <button
                 onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
                 className="btn-primary"
               >
                 View Case Studies →
               </button>
-              {/* Get in Touch → scrolls to contact section */}
-              <button onClick={scrollToContact} className="btn-outline">
+              <button
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="btn-outline"
+              >
                 Get in Touch
               </button>
             </div>
 
-            {/* Dynamic stats — auto-updates when you add projects/experience */}
+            {/* ── Dynamic Stats ── */}
             <div style={{
               display: 'flex',
-              gap: 'clamp(1.25rem, 4vw, 3rem)',
+              gap: 'clamp(1.5rem, 4vw, 3rem)',
               flexWrap: 'wrap',
-              paddingTop: '1.75rem',
+              paddingTop: '1.5rem',
               borderTop: '1px solid var(--border)',
               ...fade(480),
             }}>
               {stats.map(({ value, label }) => (
-                <div key={label}>
+                <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                   <div style={{
                     fontFamily: '"DM Serif Display", Georgia, serif',
                     fontSize: 'clamp(1.6rem, 3vw, 2.2rem)',
                     color: 'var(--gold)',
                     lineHeight: 1,
+                    fontVariantNumeric: 'tabular-nums',
                   }}>
                     {value}
                   </div>
                   <div style={{
                     fontFamily: '"DM Sans", sans-serif',
-                    fontSize: '0.7rem',
+                    fontSize: '0.68rem',
                     color: 'var(--muted)',
                     marginTop: '0.3rem',
                     letterSpacing: '0.04em',
-                    maxWidth: '100px',
                     lineHeight: 1.4,
+                    whiteSpace: 'pre-line',
                   }}>
                     {label}
                   </div>
@@ -129,87 +155,90 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT — photo, bigger and pushed right */}
-          <div className="hero-photo" style={fade(150)}>
-            {/* Outer wrapper — pushed slightly to the right */}
+          {/* ── RIGHT: photo ── */}
+          <div className="hero-photo-wrap" style={fade(150)}>
             <div style={{
               position: 'relative',
               width: '100%',
               maxWidth: '340px',
-              marginLeft: 'auto',  // pushes to the right
-              marginRight: '-1rem', // slightly outside the column
+              marginLeft: 'auto',
+              marginRight: '-0.5rem',
             }}>
-              {/* Aspect ratio box */}
-              <div style={{ position: 'relative', paddingBottom: '120%' }}>
-                {/* Corner brackets */}
-                <div style={{ position: 'absolute', top: '-12px', left: '-12px', width: '32px', height: '32px', borderTop: '2px solid var(--gold)', borderLeft: '2px solid var(--gold)', zIndex: 2 }} />
-                <div style={{ position: 'absolute', bottom: '-12px', right: '-12px', width: '32px', height: '32px', borderBottom: '2px solid var(--gold)', borderRight: '2px solid var(--gold)', zIndex: 2 }} />
-                {/* Gold offset border */}
-                <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--gold-border)', transform: 'translate(10px, 10px)', zIndex: 0 }} />
-                {/* Photo container */}
-                <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--border)', overflow: 'hidden', zIndex: 1, background: 'var(--surface)' }}>
-                  {imgError ? (
-                    // Fallback placeholder
-                    <div style={{
-                      width: '100%', height: '100%',
-                      display: 'flex', flexDirection: 'column',
-                      alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-                    }}>
-                      <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'var(--gold-dim)', border: '1px solid var(--gold-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ fontFamily: '"DM Serif Display", serif', fontSize: '1.8rem', color: 'var(--gold)' }}>H</span>
-                      </div>
-                      <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.7rem', color: 'var(--faint)', letterSpacing: '0.1em' }}>HAZEL</span>
+              {/* Corner brackets */}
+              <div style={{ position: 'absolute', top: '-12px', left: '-12px', width: '30px', height: '30px', borderTop: '2px solid var(--gold)', borderLeft: '2px solid var(--gold)', zIndex: 2, pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', bottom: '-12px', right: '-12px', width: '30px', height: '30px', borderBottom: '2px solid var(--gold)', borderRight: '2px solid var(--gold)', zIndex: 2, pointerEvents: 'none' }} />
+              {/* Offset gold border */}
+              <div style={{ position: 'absolute', inset: 0, border: '1px solid var(--gold-border)', transform: 'translate(10px, 10px)', zIndex: 0, pointerEvents: 'none' }} />
+
+              {/* Photo — using plain <img> for reliable production display */}
+              <div style={{
+                position: 'relative',
+                zIndex: 1,
+                border: '1px solid var(--border)',
+                overflow: 'hidden',
+                background: 'var(--surface)',
+                width: '100%',
+                // Fixed height instead of aspect ratio trick
+                height: 'clamp(280px, 40vw, 420px)',
+              }}>
+                {!imgError ? (
+                  <img
+                    src="/profile.jpg"
+                    alt="Hazel Marqueses"
+                    onError={() => setImgError(true)}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'top center',
+                      display: 'block',
+                    }}
+                  />
+                ) : (
+                  <div style={{
+                    width: '100%', height: '100%',
+                    display: 'flex', flexDirection: 'column',
+                    alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+                  }}>
+                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'var(--gold-dim)', border: '1px solid var(--gold-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontFamily: '"DM Serif Display", serif', fontSize: '1.8rem', color: 'var(--gold)' }}>H</span>
                     </div>
-                  ) : (
-                    <Image
-                      src="/profile.jpg"
-                      alt="Hazel Anne B. Marqueses"
-                      fill
-                      sizes="(max-width: 700px) 220px, 340px"
-                      style={{ objectFit: 'cover', objectPosition: 'top center' }}
-                      priority
-                      onError={() => setImgError(true)}
-                    />
-                  )}
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '25%', background: 'linear-gradient(to top, rgba(8,8,12,0.3), transparent)', zIndex: 2 }} />
-                </div>
+                    <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.7rem', color: 'var(--faint)', letterSpacing: '0.1em' }}>HAZEL</span>
+                  </div>
+                )}
+                {/* Gradient overlay */}
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '25%', background: 'linear-gradient(to top, rgba(8,8,12,0.25), transparent)', zIndex: 2, pointerEvents: 'none' }} />
               </div>
 
               {/* Availability badge */}
-              <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '7px', justifyContent: 'center' }}>
-                <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#5cb85c', boxShadow: '0 0 6px #5cb85c' }} />
-                <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.7rem', color: 'var(--muted)', letterSpacing: '0.06em' }}>
+              <div style={{ marginTop: '0.85rem', display: 'flex', alignItems: 'center', gap: '7px', justifyContent: 'center' }}>
+                <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#5cb85c', boxShadow: '0 0 6px #5cb85c', flexShrink: 0 }} />
+                <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.7rem', color: 'var(--muted)', letterSpacing: '0.05em' }}>
                   Open to opportunities
                 </span>
               </div>
             </div>
           </div>
-
         </div>
       </div>
-
-      {/* NO scroll indicator — removed as requested */}
 
       <style>{`
         .hero-grid {
           display: grid;
-          grid-template-columns: 1fr 380px;
+          grid-template-columns: 1fr 360px;
           gap: clamp(2rem, 4vw, 4rem);
           align-items: center;
         }
-        .hero-photo { flex-shrink: 0; }
-        @media (max-width: 768px) {
+        @media (max-width: 820px) {
           .hero-grid {
             grid-template-columns: 1fr;
             gap: 2rem;
           }
-          .hero-photo {
+          .hero-photo-wrap {
             order: -1;
-            width: 100%;
           }
-          .hero-photo > div {
-            margin-right: 0 !important;
-            max-width: 220px !important;
+          .hero-photo-wrap > div {
+            max-width: 200px !important;
             margin-left: auto !important;
             margin-right: auto !important;
           }
