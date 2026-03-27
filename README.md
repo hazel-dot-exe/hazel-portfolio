@@ -2,7 +2,7 @@
 
 My personal portfolio showcasing my work in project management, QA testing, and software development.
 
-🔗 [Visit the live site](https://hazel-portfolio-site.vercel.app/)
+🔗 [Visit my Portfolio](https://hazel-portfolio-site.vercel.app/)
 
 ## Contact
 marqueseshazel7@gmail.com
