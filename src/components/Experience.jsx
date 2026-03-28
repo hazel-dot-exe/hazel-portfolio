@@ -18,7 +18,7 @@ const TYPE_COLORS = {
   'Part-Time':            '#ff04cd',
   'Full-Time':            '#5cb85c',
   'Internship':           '#368efa',
-  'Internship (486 hrs)': '#368efa',
+  'Internship':           '#368efa',
   'Remote':               '#368efa',
 }
 

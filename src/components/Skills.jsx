@@ -1,13 +1,13 @@
 'use client'
-import { SKILLS } from '../lib/data'
+import { SKILLS, RESUME_LINK } from '../lib/data'
 import SectionHeader from './SectionHeader'
 import { useScrollReveal } from '../lib/useScrollReveal'
 
 const CATEGORY_ACCENTS = {
-  'Project Management': '#e8b86d',
-  'QA & Testing': '#c084fc',
+  'Project Management':    '#e8b86d',
+  'QA & Testing':          '#c084fc',
   'Development & Technical': '#5cb85c',
-  'Tools & Platforms': '#60a5fa',
+  'Tools & Platforms':     '#60a5fa',
 }
 
 function SkillCategory({ category, items, index }) {
@@ -25,22 +25,17 @@ function SkillCategory({ category, items, index }) {
         transition: `opacity 0.6s ease ${index * 100}ms, transform 0.6s ease ${index * 100}ms`,
       }}
     >
-      {/* Category header */}
       <div style={{
         fontFamily: '"DM Sans", sans-serif',
-        fontSize: '0.68rem',
-        fontWeight: 700,
-        letterSpacing: '0.18em',
-        textTransform: 'uppercase',
-        color: accent,
-        marginBottom: '1.5rem',
+        fontSize: '0.68rem', fontWeight: 700,
+        letterSpacing: '0.18em', textTransform: 'uppercase',
+        color: accent, marginBottom: '1.5rem',
         paddingBottom: '0.75rem',
         borderBottom: `1px solid ${accent}25`,
       }}>
         {category}
       </div>
 
-      {/* Skill items */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
         {items.map((item) => (
           <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
@@ -62,7 +57,7 @@ function ResumeBlock() {
     <div
       ref={ref}
       style={{
-        marginTop: '4rem',
+        marginTop: '3rem',
         padding: 'clamp(1.5rem, 3vw, 2.5rem)',
         border: '1px solid var(--gold-border)',
         background: 'var(--gold-dim)',
@@ -80,22 +75,24 @@ function ResumeBlock() {
         <h4 style={{
           fontFamily: '"DM Serif Display", Georgia, serif',
           fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
-          fontWeight: 400,
-          color: 'var(--text)',
-          marginBottom: '0.4rem',
+          fontWeight: 400, color: 'var(--text)', marginBottom: '0.4rem',
         }}>
           Want the full picture?
         </h4>
         <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.88rem', color: 'var(--muted)' }}>
-          Download my resume for a complete view of my experience and qualifications.
+          View my live resume — always up to date.
         </p>
       </div>
+
+      {/* Opens Canva resume link in a new tab — always reflects latest version */}
       <a
-        href="/resume.pdf"
+        href={RESUME_LINK}
+        target="_blank"
+        rel="noreferrer"
         className="btn-primary"
         style={{ flexShrink: 0 }}
       >
-        ↓ Request Resume
+        View Resume →
       </a>
     </div>
   )
@@ -103,7 +100,7 @@ function ResumeBlock() {
 
 export default function Skills() {
   return (
-    <section id="skills" className="section-divider" style={{ padding: '8rem clamp(1.5rem, 8vw, 8rem)' }}>
+    <section id="skills" className="section-divider" style={{ padding: 'clamp(3rem, 6vw, 5rem) clamp(1.25rem, 6vw, 8rem)' }}>
       <SectionHeader
         label="Capabilities"
         title="Skills & Tools"

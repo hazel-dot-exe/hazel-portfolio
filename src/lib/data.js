@@ -8,6 +8,9 @@ export const SOCIAL = {
   location: 'Bicol, Philippines',
 }
 
+// ── RESUME ────────────────────────────────────────────────────────────────────
+export const RESUME_LINK = 'https://tinyurl.com/Click-to-view-resume'
+
 export const PROJECTS = [
   {
     id: 'usc',
@@ -230,6 +233,18 @@ export const EXPERIENCE = [
     ],
   },
   {
+    role: 'Web Project Coordinator & Quality Control',
+    company: 'AEK Media',
+    period: 'Mar 2026 – Present',
+    type: 'Full-Time',
+    category: 'pm',
+    highlights: [
+      'Coordinate and support the delivery of web projects across WordPress, Shopify, and other platforms, ensuring timelines, tasks, and deliverables stay on track.',
+      'Conduct thorough QA testing to identify issues in layout, responsiveness, and functionality, working closely with developers to resolve them before launch.',
+      'Collaborate with the Lead Project Manager to maintain project efficiency, uphold quality standards, and ensure client-ready outputs.',
+    ],
+  },
+  {
     role: 'IT & Operations Support Specialist',
     company: 'Pilar Travel and Tours Agency',
     period: 'Jul – Oct 2025',
@@ -245,7 +260,7 @@ export const EXPERIENCE = [
     role: 'Backend Developer & QA Tester',
     company: 'StraStan Solutions Corp.',
     period: 'Jan – May 2025',
-    type: 'Internship (486 hrs)',
+    type: 'Internship',
     category: 'qa',
     highlights: [
       'Developed backend logic for internal workflow automation platform',
@@ -291,6 +306,42 @@ export const EXPERIENCE = [
   },
 ]
 
+// ── CERTIFICATIONS & TRAININGS ────────────────────────────────────────────────
+export const CERTIFICATIONS = [
+  {
+    title: 'Programming (Java) NC III',
+    issuer: 'NRG Info-Tech Institute Inc.',
+    period: 'Dec 2024 – Jan 2025',
+    hours: '240 hrs',
+    category: 'tech',
+    description: 'Intensive Java programming certification covering object-oriented principles, data structures, and application development.',
+  },
+  {
+    title: 'Supervised Industry Learning',
+    issuer: 'Ollopa Corporation',
+    period: 'Feb – Mar 2025',
+    hours: '120 hrs',
+    category: 'pm',
+    description: 'Industry-based learning program focused on project planning, documentation, and game development proposal delivery.',
+  },
+  {
+    title: 'Backend Developer & QA Tester',
+    issuer: 'StraStan Solutions Corp.',
+    period: 'Jan – May 2025',
+    hours: '486 hrs',
+    category: 'qa',
+    description: 'Comprehensive internship covering backend development, automated testing with Jest and Playwright, and Agile QA practices.',
+  },
+  {
+    title: 'Google Project Management Professional Certificate',
+    issuer: 'Google Career Certificates',
+    period: 'Dec 2025 – Present',
+    hours: 'Flexible',
+    category: 'pm',
+    description: 'Professional certification training in project management covering Agile and traditional methodologies, project lifecycle management, scheduling, budgeting, risk mitigation, and stakeholder coordination. Builds practical skills through real-world case studies and hands-on project simulations. Ongoing certification focused on applying structured delivery frameworks in technology and business environments.',
+  },
+]
+
 export const SKILLS = {
   'Project Management': [
     'Agile & Scrum Methodologies',
@@ -326,26 +377,19 @@ export const SKILLS = {
   ],
 }
 
-// ── DYNAMIC STATS — auto-computed from PROJECTS and EXPERIENCE ────────────────
-// Add to these arrays and the hero stats update automatically
- 
-// Unique roles across career
-const uniqueRoles = [...new Set(EXPERIENCE.map(e => e.category))].length
- 
-export const getStats = () => [
-  {
-    value: `${EXPERIENCE.length}+`,
-    label: 'Years of Experience',
-  },
-  {
-    value: `${PROJECTS.length}+`,
-    label: 'Projects Delivered',
-  },
-  {
-    value: `${uniqueRoles}`,
-    label: 'Disciplines: PM · QA · Dev',
-  },
-]
+// ── DYNAMIC STATS ─────────────────────────────────────────────────────────────
+export const getStats = () => {
+  const qualified = EXPERIENCE.filter(e => {
+    const t = e.type?.toLowerCase() || ''
+    return !t.includes('internship') && !t.includes('trainee') && !t.includes('remote')
+  })
+  const disciplines = [...new Set(EXPERIENCE.map(e => e.category))].length
+  return [
+    { value: `${qualified.length}+`, label: 'Roles' },
+    { value: `${PROJECTS.length}+`,  label: 'Projects Delivered' },
+    { value: `${disciplines}`,        label: 'Disciplines' },
+  ]
+}
  
 // Keep STATS as a static export for any other components still referencing it
 export const STATS = getStats()

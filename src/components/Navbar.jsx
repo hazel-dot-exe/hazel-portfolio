@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useTheme } from '../lib/ThemeContext'
 import { SOCIAL } from '../lib/data'
 
-const NAV_LINKS = ['Home', 'Projects', 'Experience', 'Skills', 'Contact']
+const NAV_LINKS = ['Home', 'Projects', 'Experience', 'Certifications', 'Skills', 'Contact']
 
 function SunIcon() {
   return (
@@ -40,22 +40,25 @@ function LinkedInIcon() {
 function MenuIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
     </svg>
   )
 }
 function CloseIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
     </svg>
   )
 }
 
 export default function Navbar({ onLogoClick }) {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme }        = useTheme()
   const [scrolled, setScrolled]       = useState(false)
-  const [activeSection, setActiveSection] = useState('Home')
+  const [activeSection, setActive]    = useState('Home')
   const [mobileOpen, setMobileOpen]   = useState(false)
 
   useEffect(() => {
@@ -70,11 +73,11 @@ export default function Navbar({ onLogoClick }) {
         entries.forEach(e => {
           if (e.isIntersecting) {
             const id = e.target.id
-            setActiveSection(id.charAt(0).toUpperCase() + id.slice(1))
+            setActive(id.charAt(0).toUpperCase() + id.slice(1))
           }
         })
       },
-      { threshold: 0.35 }
+      { threshold: 0.3 }
     )
     NAV_LINKS.forEach(link => {
       const el = document.getElementById(link.toLowerCase())
@@ -105,28 +108,21 @@ export default function Navbar({ onLogoClick }) {
         transition: 'all 0.3s ease',
       }}>
 
-        {/* Logo — clicking resets splash */}
-        <button
-          onClick={onLogoClick}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0' }}
-          aria-label="Back to splash"
-        >
-          <span style={{
-            fontFamily: '"DM Serif Display", Georgia, serif',
-            fontSize: '1.15rem', color: 'var(--text)', letterSpacing: '0.02em',
-          }}>
+        {/* Logo */}
+        <button onClick={onLogoClick} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0' }}>
+          <span style={{ fontFamily: '"DM Serif Display", Georgia, serif', fontSize: '1.15rem', color: 'var(--text)', letterSpacing: '0.02em' }}>
             Hazel<span style={{ color: 'var(--gold)' }}>.</span>
           </span>
         </button>
 
         {/* Desktop nav */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}
-             className="desktop-nav">
+        <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
           {NAV_LINKS.map(link => (
             <button
               key={link}
               onClick={() => scrollTo(link)}
               className={`nav-link${activeSection === link ? ' active' : ''}`}
+              style={{ fontSize: '0.72rem' }}
             >
               {link}
             </button>
@@ -138,26 +134,19 @@ export default function Navbar({ onLogoClick }) {
             style={{ color: 'var(--muted)', transition: 'color 0.2s', display: 'flex' }}
             onMouseEnter={e => e.currentTarget.style.color = 'var(--gold)'}
             onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
-            aria-label="GitHub">
-            <GitHubIcon />
-          </a>
+            aria-label="GitHub"><GitHubIcon /></a>
 
           <a href={SOCIAL.linkedin} target="_blank" rel="noreferrer"
             style={{ color: 'var(--muted)', transition: 'color 0.2s', display: 'flex' }}
             onMouseEnter={e => e.currentTarget.style.color = 'var(--gold)'}
             onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
-            aria-label="LinkedIn">
-            <LinkedInIcon />
-          </a>
+            aria-label="LinkedIn"><LinkedInIcon /></a>
 
           <button
             onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              borderRadius: '20px',
-              padding: '4px 9px',
+              background: 'var(--surface)', border: '1px solid var(--border)',
+              borderRadius: '20px', padding: '4px 9px',
               display: 'flex', alignItems: 'center', gap: '5px',
               color: 'var(--muted)', cursor: 'pointer',
               fontSize: '0.7rem', letterSpacing: '0.06em',
@@ -173,30 +162,12 @@ export default function Navbar({ onLogoClick }) {
           </button>
         </div>
 
-        {/* Mobile — hamburger + theme toggle */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}
-             className="mobile-nav">
-          <button
-            onClick={toggleTheme}
-            style={{
-              background: 'none', border: 'none',
-              color: 'var(--muted)', cursor: 'pointer',
-              display: 'flex', alignItems: 'center',
-              padding: '4px',
-            }}
-          >
+        {/* Mobile controls */}
+        <div className="mobile-nav" style={{ display: 'none', alignItems: 'center', gap: '0.75rem' }}>
+          <button onClick={toggleTheme} style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', display: 'flex', padding: '4px' }}>
             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
           </button>
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            style={{
-              background: 'none', border: 'none',
-              color: 'var(--text)', cursor: 'pointer',
-              display: 'flex', alignItems: 'center',
-              padding: '4px',
-            }}
-            aria-label="Toggle menu"
-          >
+          <button onClick={() => setMobileOpen(!mobileOpen)} style={{ background: 'none', border: 'none', color: 'var(--text)', cursor: 'pointer', display: 'flex', padding: '4px' }}>
             {mobileOpen ? <CloseIcon /> : <MenuIcon />}
           </button>
         </div>
@@ -208,56 +179,44 @@ export default function Navbar({ onLogoClick }) {
         background: theme === 'dark' ? 'rgba(8,8,12,0.97)' : 'rgba(247,243,235,0.97)',
         backdropFilter: 'blur(16px)',
         borderBottom: '1px solid var(--border)',
-        padding: mobileOpen ? '1.5rem clamp(1rem, 5vw, 2rem) 2rem' : '0 clamp(1rem, 5vw, 2rem)',
-        maxHeight: mobileOpen ? '400px' : '0',
+        padding: mobileOpen ? '1.25rem clamp(1rem, 5vw, 2rem) 1.75rem' : '0 clamp(1rem, 5vw, 2rem)',
+        maxHeight: mobileOpen ? '500px' : '0',
         overflow: 'hidden',
         transition: 'max-height 0.35s ease, padding 0.35s ease',
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-          {NAV_LINKS.map((link, i) => (
-            <button
-              key={link}
-              onClick={() => scrollTo(link)}
-              style={{
-                background: 'none', border: 'none',
-                borderBottom: i < NAV_LINKS.length - 1 ? '1px solid var(--border)' : 'none',
-                padding: '1rem 0',
-                fontFamily: '"DM Sans", sans-serif',
-                fontSize: '1rem',
-                fontWeight: activeSection === link ? 600 : 400,
-                color: activeSection === link ? 'var(--gold)' : 'var(--text)',
-                cursor: 'pointer',
-                textAlign: 'left',
-                letterSpacing: '0.04em',
-                transition: 'color 0.2s',
-              }}
-            >
-              {link}
-            </button>
+        {NAV_LINKS.map((link, i) => (
+          <button
+            key={link}
+            onClick={() => scrollTo(link)}
+            style={{
+              background: 'none', border: 'none',
+              borderBottom: i < NAV_LINKS.length - 1 ? '1px solid var(--border)' : 'none',
+              padding: '0.85rem 0', width: '100%',
+              fontFamily: '"DM Sans", sans-serif',
+              fontSize: '0.95rem',
+              fontWeight: activeSection === link ? 600 : 400,
+              color: activeSection === link ? 'var(--gold)' : 'var(--text)',
+              cursor: 'pointer', textAlign: 'left',
+              letterSpacing: '0.04em', transition: 'color 0.2s',
+            }}
+          >
+            {link}
+          </button>
+        ))}
+        <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
+          {[['GitHub', SOCIAL.github], ['LinkedIn', SOCIAL.linkedin], ['Email', `mailto:${SOCIAL.email}`]].map(([label, href]) => (
+            <a key={label} href={href} target={label !== 'Email' ? '_blank' : undefined} rel="noreferrer"
+              style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.82rem', color: 'var(--muted)', textDecoration: 'none' }}>
+              {label}
+            </a>
           ))}
-
-          {/* Social links in mobile menu */}
-          <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border)' }}>
-            <a href={SOCIAL.github} target="_blank" rel="noreferrer"
-              style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.82rem', color: 'var(--muted)', textDecoration: 'none', letterSpacing: '0.05em' }}>
-              GitHub
-            </a>
-            <a href={SOCIAL.linkedin} target="_blank" rel="noreferrer"
-              style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.82rem', color: 'var(--muted)', textDecoration: 'none', letterSpacing: '0.05em' }}>
-              LinkedIn
-            </a>
-            <a href={`mailto:${SOCIAL.email}`}
-              style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '0.82rem', color: 'var(--muted)', textDecoration: 'none', letterSpacing: '0.05em' }}>
-              Email
-            </a>
-          </div>
         </div>
       </div>
 
       <style>{`
         .desktop-nav { display: flex !important; }
         .mobile-nav  { display: none  !important; }
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
           .desktop-nav { display: none  !important; }
           .mobile-nav  { display: flex  !important; }
         }

@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import Projects from '../components/Projects'
 import Experience from '../components/Experience'
+import Certifications from '../components/Certifications'
 import Skills from '../components/Skills'
 import Contact from '../components/Contact'
 import Footer from '../components/Footer'
@@ -12,14 +13,12 @@ import Footer from '../components/Footer'
 const SplashScreen = dynamic(() => import('../components/SplashScreen'), { ssr: false })
 
 export default function Home() {
-  const [showSplash, setShowSplash]   = useState(false)
-  const [splashDone, setSplashDone]   = useState(false)
-  const [mounted, setMounted]         = useState(false)
+  const [showSplash, setShowSplash] = useState(false)
+  const [splashDone, setSplashDone] = useState(false)
+  const [mounted, setMounted]       = useState(false)
 
   useEffect(() => {
     setMounted(true)
-
-    // Always make body fully visible — fixes blank page after external navigation
     document.body.style.opacity    = '1'
     document.body.style.visibility = 'visible'
 
@@ -31,8 +30,6 @@ export default function Home() {
       setShowSplash(true)
     }
 
-    // Fix: when user returns from resume PDF or any external link,
-    // the page may be hidden — force it visible on focus/pageshow
     const handleVisible = () => {
       document.body.style.opacity    = '1'
       document.body.style.visibility = 'visible'
@@ -40,15 +37,15 @@ export default function Home() {
       if (alreadySeen) setSplashDone(true)
     }
 
-    window.addEventListener('pageshow', handleVisible)
-    window.addEventListener('focus',    handleVisible)
+    window.addEventListener('pageshow',  handleVisible)
+    window.addEventListener('focus',     handleVisible)
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') handleVisible()
     })
 
     return () => {
-      window.removeEventListener('pageshow', handleVisible)
-      window.removeEventListener('focus',    handleVisible)
+      window.removeEventListener('pageshow',  handleVisible)
+      window.removeEventListener('focus',     handleVisible)
     }
   }, [])
 
@@ -72,15 +69,16 @@ export default function Home() {
       {showSplash && <SplashScreen onEnter={handleEnter} />}
 
       <div style={{
-        opacity:     splashDone ? 1 : 0,
-        visibility:  splashDone ? 'visible' : 'hidden',
-        transition:  'opacity 0.6s ease',
+        opacity:    splashDone ? 1 : 0,
+        visibility: splashDone ? 'visible' : 'hidden',
+        transition: 'opacity 0.6s ease',
       }}>
         <Navbar onLogoClick={handleLogoClick} />
         <main>
           <Hero />
           <Projects />
           <Experience />
+          <Certifications />
           <Skills />
           <Contact />
         </main>
