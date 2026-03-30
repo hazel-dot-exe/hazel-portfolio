@@ -315,6 +315,7 @@ export const CERTIFICATIONS = [
     hours: '240 hrs',
     category: 'tech',
     description: 'Intensive Java programming certification covering object-oriented principles, data structures, and application development.',
+    proof: null, // replace with '/certs/java-nciii.jpg' or external URL
   },
   {
     title: 'Supervised Industry Learning',
@@ -323,6 +324,7 @@ export const CERTIFICATIONS = [
     hours: '120 hrs',
     category: 'pm',
     description: 'Industry-based learning program focused on project planning, documentation, and game development proposal delivery.',
+    proof: null, // replace with '/certs/java-nciii.jpg' or external URL
   },
   {
     title: 'Backend Developer & QA Tester',
@@ -331,6 +333,7 @@ export const CERTIFICATIONS = [
     hours: '486 hrs',
     category: 'qa',
     description: 'Comprehensive internship covering backend development, automated testing with Jest and Playwright, and Agile QA practices.',
+    proof: null, // replace with '/certs/java-nciii.jpg' or external URL
   },
   {
     title: 'Google Project Management Professional Certificate',
@@ -339,6 +342,7 @@ export const CERTIFICATIONS = [
     hours: 'Flexible',
     category: 'pm',
     description: 'Professional certification training in project management covering Agile and traditional methodologies, project lifecycle management, scheduling, budgeting, risk mitigation, and stakeholder coordination. Builds practical skills through real-world case studies and hands-on project simulations. Ongoing certification focused on applying structured delivery frameworks in technology and business environments.',
+    proof: null, // replace with '/certs/java-nciii.jpg' or external URL
   },
 ]
 
@@ -388,6 +392,7 @@ export const getStats = () => {
     { value: `${qualified.length}+`, label: 'Roles' },
     { value: `${PROJECTS.length}+`,  label: 'Projects Delivered' },
     { value: `${disciplines}`,        label: 'Disciplines' },
+    { value: `${CERTIFICATIONS.length}`,     label: 'Certifications' },
   ]
 }
  
