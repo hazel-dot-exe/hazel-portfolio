@@ -9,7 +9,7 @@ export const SOCIAL = {
 }
 
 // ── RESUME ────────────────────────────────────────────────────────────────────
-export const RESUME_LINK = 'https://tinyurl.com/Click-to-view-resume'
+export const RESUME_LINK = 'https://canva.link/g63eeyn93lwuq4a'
 
 export const PROJECTS = [
   {
