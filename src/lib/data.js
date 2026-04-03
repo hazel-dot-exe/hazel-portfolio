@@ -36,6 +36,16 @@ export const PROJECTS = [
     qa: 'Designed and executed a UAT plan covering content accuracy, navigation flow, mobile responsiveness, and cross-browser consistency. Documented and triaged 14 issues before go-live.',
     outcome:
       'Delivered on schedule. The platform now serves as the USC\'s primary communication channel, with structured content for announcements, transparency reports, and council profiles.',
+    samples: {
+      images: [
+        // { src: '/samples/usc/homepage.png',   caption: 'Homepage' },
+        // { src: '/samples/usc/dashboard.png',  caption: 'Dashboard' },
+        // { src: '/samples/usc/mobile.png',     caption: 'Mobile view' },
+      ],
+      links: [
+        { label: 'Live Site',    url: 'https://v2.bu-usc.com/', icon: 'globe'  },
+      ],
+    },
   },
   {
     id: 'coe',
@@ -60,6 +70,18 @@ export const PROJECTS = [
     qa: 'Performed structured QA across core modules including document uploads, tracking flows, and report generation. Created test scenarios based on real user workflows, logged and validated bugs, and ensured system reliability before deployment.',
     outcome:
       'Successfully digitized the COE process into a single platform, improving accessibility, reducing manual workload, and enabling faster, standardized generation of CHED-required reports. Enhanced system maintainability and reduced dependency on manual tracking.',
+      samples: {
+      images: [
+        // { src: '/samples/agtech/farmer-dashboard.png', caption: 'Farmer dashboard' },
+        // { src: '/samples/agtech/test-report.png',      caption: 'QA test report' },
+        // { src: '/samples/agtech/market-listing.png',   caption: 'Market listings' },
+      ],
+      links: [
+        // { label: 'GitHub Repo',   url: 'https://...', icon: 'github' },
+        // { label: 'Test Report',   url: 'https://...', icon: 'doc'    },
+        // { label: 'Presentation',  url: 'https://...', icon: 'doc'    },
+      ],
+    },
   },
   {
     id: 'msp',
@@ -109,6 +131,18 @@ export const PROJECTS = [
     qa: 'Wrote and executed 40+ test cases covering user registration, product listing, order flow, and data validation. Identified and tracked 22 bugs using a structured defect log. Implemented regression testing on critical trade flows.',
     outcome:
       'Successfully defended as a capstone project. Platform demonstrated live transaction flows, trader dashboards, and real-time inventory management.',
+      samples: {
+      images: [
+        // { src: '/samples/agtech/farmer-dashboard.png', caption: 'Farmer dashboard' },
+        // { src: '/samples/agtech/test-report.png',      caption: 'QA test report' },
+        // { src: '/samples/agtech/market-listing.png',   caption: 'Market listings' },
+      ],
+      links: [
+        // { label: 'GitHub Repo',   url: 'https://...', icon: 'github' },
+        // { label: 'Test Report',   url: 'https://...', icon: 'doc'    },
+        // { label: 'Presentation',  url: 'https://...', icon: 'doc'    },
+      ],
+    },
   },
   {
     id: 'solutions',
@@ -204,6 +238,17 @@ export const PROJECTS = [
     qa: 'Reviewed documentation for consistency, feasibility, and alignment between design and technical scope. Validated completeness of planning artifacts.',
     outcome:
       'Delivered a comprehensive game development proposal with clear scope, structured planning, and aligned technical considerations, ready for potential execution.',
+      samples: {
+      images: [
+        // { src: '/samples/agtech/farmer-dashboard.png', caption: 'Farmer dashboard' },
+        // { src: '/samples/agtech/test-report.png',      caption: 'QA test report' },
+        // { src: '/samples/agtech/market-listing.png',   caption: 'Market listings' },
+      ],
+      links: [
+        { label: 'Presentation',  url: 'https://canva.link/42yinz9fnndpvmc', icon: 'doc' },
+        { label: 'Presentation',  url: 'https://canva.link/etmy033n3gb9g0s', icon: 'doc' },
+      ],
+    },
   },
 ]
 
@@ -333,7 +378,7 @@ export const CERTIFICATIONS = [
     hours: '486 hrs',
     category: 'qa',
     description: 'Comprehensive internship covering backend development, automated testing with Jest and Playwright, and Agile QA practices.',
-    proof: '/certs/STRASTAN.png'
+    proof: '  /certs/STRASTAN.png'
   },
   {
     title: 'Google Project Management Professional Certificate',
