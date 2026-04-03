@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { PROJECTS, EXPERIENCE, SOCIAL } from '../lib/data'
+import { PROJECTS, EXPERIENCE, CERTIFICATIONS, SOCIAL } from '../lib/data'
 
 // Compute stats dynamically — excludes internship/trainee from experience count
 function computeStats() {
@@ -17,6 +17,7 @@ function computeStats() {
     { value: `${qualifiedRoles.length}+`, label: 'Work\nExperience' },
     { value: `${PROJECTS.length}+`,       label: 'Projects\nDelivered' },
     { value: `${disciplines}`,             label: 'Disciplines\nPM · QA · Dev' },
+    { value: `${CERTIFICATIONS.length}`, label: 'Certifications' },
   ]
 }
 
@@ -163,7 +164,6 @@ export default function Hero() {
               maxWidth: '400px',
               marginLeft: 'auto',
               marginRight: '-2rem',
-              // Extra padding so corner brackets and offset border don't clip
               padding: '14px 14px 0 14px',
             }}>
  
